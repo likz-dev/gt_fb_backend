@@ -2,6 +2,7 @@ import unittest
 from datetime import date
 
 import pytest
+from freezegun import freeze_time
 from mock import MagicMock
 from app.entities.booking import Booking
 from app.daos.booking_dao import BookingDAO
@@ -62,7 +63,7 @@ class TestBookingDAO(unittest.TestCase):
 
         assert response is False
 
-    @pytest.mark.freeze_time('2021-03-10 00:00:00')
+    @freeze_time('2021-03-10 00:00:00')
     def test_get_all_valid_bookings_valid(self):
         db_helper = MagicMock()
         db_helper.connection = None
@@ -83,7 +84,7 @@ class TestBookingDAO(unittest.TestCase):
                              'start': '2021/03/12 00:00',
                              'text': 'booking_2'}]
 
-    @pytest.mark.freeze_time('2021-03-10 00:00:00')
+    @freeze_time('2021-03-10 00:00:00')
     def test_get_all_valid_bookings_invalid(self):
         db_helper = MagicMock()
         db_helper.connection = None

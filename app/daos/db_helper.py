@@ -2,6 +2,10 @@ import psycopg2
 import psycopg2.extras
 from psycopg2._psycopg import Error
 
+from app.utils.secrets_manager import SecretsManager, SECRET_NAME_DATABASE, SECRET_STRING_DATABASE_USERNAME, \
+    SECRET_STRING_DATABASE_PASSWORD
+
+
 class DBHelper:
     def __init__(self):
         self.connection = None
@@ -9,7 +13,12 @@ class DBHelper:
 
     def connect(self):
         try:
-            self.connection = psycopg2.connect('db_credentials')
+            secret_manager = SecretsManager()
+            db_credentials = secret_manager.get_value(SECRET_NAME_DATABASE)
+            username = db_credentials.get(SECRET_STRING_DATABASE_USERNAME)
+            password = db_credentials.get(SECRET_STRING_DATABASE_PASSWORD)
+
+            self.connection = psycopg2.connect(f'dbname=postgres user={username} password={password}')
             self.cursor = self.connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
         except (Exception, Error) as error:
             print('Error while connecting to PostgreSQL', error)

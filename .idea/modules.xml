@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$USER_HOME$/.aws/.idea/.aws.iml" filepath="$USER_HOME$/.aws/.idea/.aws.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../gt_backend_pipeline_cf/.idea/gt_backend_pipeline_cf.iml" filepath="$PROJECT_DIR$/../gt_backend_pipeline_cf/.idea/gt_backend_pipeline_cf.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/gt_fb_backend.iml" filepath="$PROJECT_DIR$/.idea/gt_fb_backend.iml" />
     </modules>
   </component>

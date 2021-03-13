@@ -6,5 +6,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="gt_backend_pipeline_cf" />
+    <orderEntry type="module" module-name=".aws" />
   </component>
 </module>

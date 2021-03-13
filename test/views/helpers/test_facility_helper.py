@@ -1,6 +1,6 @@
 import unittest
-import pytest
 
+from freezegun import freeze_time
 from mock import MagicMock
 from app.views.helpers.facility_helper import FacilityHelper
 
@@ -40,7 +40,7 @@ def mock_booking_dao():
     )
 
 
-@pytest.mark.freeze_time('2021-03-10 00:00:00')
+@freeze_time('2021-03-10 00:00:00')
 class TestFacilityHelper(unittest.TestCase):
     def test_get_all_facilities_and_bookings(self):
         db_helper = MagicMock()
