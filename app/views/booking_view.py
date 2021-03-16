@@ -2,6 +2,7 @@ from flask_restful import Resource, reqparse
 
 from app.entities.booking import Booking
 from app.views.helpers.booking_helper import BookingHelper
+from app.views.helpers.authentication import requires_auth
 
 parser = reqparse.RequestParser()
 parser.add_argument('booking_name', type=str)
@@ -25,9 +26,9 @@ class BookingView(Resource):
     def __init__(self):
         self.helper = BookingHelper()
 
+    @requires_auth
     def post(self):
         args = parser.parse_args()
-        print(args)
         booking_name = args.get('booking_name')
         start_time = args.get('start_time')
         end_time = args.get('end_time')

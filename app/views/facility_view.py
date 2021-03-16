@@ -1,6 +1,7 @@
 from flask_restful import Resource
 
 from app.views.helpers.facility_helper import FacilityHelper
+from app.views.helpers.authentication import requires_auth
 
 
 class FacilityView(Resource):
@@ -17,8 +18,8 @@ class FacilityView(Resource):
     def __init__(self):
         self.helper = FacilityHelper()
 
+    @requires_auth
     def get(self):
-        print("HELLO!")
         """Get all the facilities and booking information
 
         Returns

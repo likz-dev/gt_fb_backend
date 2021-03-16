@@ -13,8 +13,8 @@ class DBHelper:
 
     def connect(self):
         try:
-            secret_manager = SecretsManager()
-            db_credentials = secret_manager.get_value(SECRET_NAME_DATABASE)
+            secrets_manager = SecretsManager()
+            db_credentials = secrets_manager.get_value(SECRET_NAME_DATABASE)
             host = db_credentials.get(SECRET_STRING_DATABASE_HOST)
             name = db_credentials.get(SECRET_STRING_DATABASE_NAME)
             username = db_credentials.get(SECRET_STRING_DATABASE_USERNAME)
