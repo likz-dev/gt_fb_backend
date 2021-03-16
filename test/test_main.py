@@ -30,7 +30,7 @@ def test_callback(mock_authorize_access_token, app, client):
                       'picture': 'https://s.gravatar.com/avatar/b642b4217b34b1e8d3bd915fc65c4452?s=480&r=pg&d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fte.png',
                       'updated_at': '2021-03-16T05:48:19.559Z', 'email': 'test@test.com', 'email_verified': False}
         )
-    with patch('authlib.integrations.flask_client.remote_app.FlaskRemoteApp.get', return_value=mock_resp) as mock_get:
+    with patch('authlib.integrations.flask_client.remote_app.FlaskRemoteApp.get', return_value=mock_resp):
         res = client.get('/callback')
         mock_authorize_access_token.assert_called_once()
         assert res.status_code == 302
