@@ -61,7 +61,7 @@ def callback_handling():
     }
 
     # redirect(url_for('app.vehicle', vid=vid, year_make_model=year_make_model, **request.args))
-    return redirect(f'http://gt-fb-frontend.s3-website-us-east-1.amazonaws.com/booking?token={id_token}')
+    return redirect(f'http://gt-fb-frontend.s3-website-us-east-1.amazonaws.com/booking/?token={id_token}')
 
 
 @app.route('/login')
