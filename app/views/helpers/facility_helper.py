@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 
 from app.views.helpers.base_helper import BaseHelper
+from app.daos import facility_dao
 
 
 class FacilityHelper(BaseHelper):
@@ -23,11 +24,11 @@ class FacilityHelper(BaseHelper):
 
         # Populate facilities information
         for facility in all_facilities:
-            facility_bookings = list(filter(lambda b: b.get('facilityId') == facility.get('id'), all_bookings))
-            facilities_bookings.get('facilities')[facility.get('name')] = {
-                'facilityId': facility.get('id'),
-                'level': facility.get('level'),
-                'pax': facility.get('pax'),
+            facility_bookings = list(filter(lambda b: b.get('facilityId') == facility.get(facility_dao.FIELD_ID), all_bookings))
+            facilities_bookings.get('facilities')[facility.get(facility_dao.FIELD_NAME)] = {
+                'facilityId': facility.get(facility_dao.FIELD_ID),
+                'level': facility.get(facility_dao.FIELD_LEVEL),
+                'pax': facility.get(facility_dao.FIELD_PAX),
                 'schedule': facility_bookings
             }
 

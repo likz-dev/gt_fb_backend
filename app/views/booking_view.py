@@ -19,8 +19,8 @@ class BookingView(Resource):
 
     Methods
     -------
-    get()
-        Get all the facilities and booking.py information
+    post()
+        Creates a new booking
     """
 
     def __init__(self):
