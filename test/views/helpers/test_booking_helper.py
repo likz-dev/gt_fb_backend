@@ -16,3 +16,25 @@ class TestBookingHelper(unittest.TestCase):
         response = booking_helper.create_booking(booking)
 
         assert response == {'success': 1}
+
+    def test_get_all_user_booking(self):
+        booking_helper = BookingHelper()
+
+        booking_helper.get_db_helper = MagicMock()
+        booking_helper.get_booking_dao().get_all_user_valid_bookings = MagicMock(
+            return_value=[{'booking_id': 1, 'booked_by': 'test_user'}, {'booking_id': 2, 'booked_by': 'test_user'}])
+
+        response = booking_helper.get_all_user_booking('test_user')
+
+        assert response == {
+            'bookings': [{'booking_id': 1, 'booked_by': 'test_user'}, {'booking_id': 2, 'booked_by': 'test_user'}]}
+
+    def test_delete_user_booking(self):
+        booking_helper = BookingHelper()
+
+        booking_helper.get_db_helper = MagicMock()
+        booking_helper.get_booking_dao().delete_user_booking = MagicMock(return_value=True)
+
+        response = booking_helper.delete_user_booking(1)
+
+        assert response == {'success': True}

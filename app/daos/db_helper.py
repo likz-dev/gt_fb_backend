@@ -29,6 +29,7 @@ class DBHelper:
 
     def execute(self, query, params=None):
         try:
+            print(self.cursor.mogrify(query, params))
             self.cursor.execute(query, params)
             self.connection.commit()
             return self.cursor.fetchall()
