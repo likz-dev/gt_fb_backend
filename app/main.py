@@ -52,25 +52,15 @@ def callback_handling():
     resp = auth0.get('userinfo')
     userinfo = resp.json()
 
-    # Store the user information in flask session.
-    print(userinfo)
-    # session['jwt_payload'] = userinfo
-    # session['profile'] = {
-    #     'user_id': userinfo['sub'],
-    #     'name': userinfo['name'],
-    #     'picture': userinfo['picture'],
-    #     'email': userinfo['email']
-    # }
     email = userinfo['email']
 
-    # redirect(url_for('app.vehicle', vid=vid, year_make_model=year_make_model, **request.args))
-    return redirect(f'http://localhost:3000/booking/?email={email}&token={id_token}')
+    return redirect(f'http://gt-fb-frontend.s3-website-us-east-1.amazonaws.com/booking/?email={email}&token={id_token}')
 
 
 @app.route('/login')
 def login():
     print('/login')
-    return auth0.authorize_redirect(redirect_uri=' callback')
+    return auth0.authorize_redirect(redirect_uri='http://gt-fb-loadb-u0izqrvy105b-1396436520.us-east-1.elb.amazonaws.com/callback')
 
 
 @app.route('/')
