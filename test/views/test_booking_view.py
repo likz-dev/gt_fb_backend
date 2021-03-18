@@ -63,7 +63,7 @@ def test_delete(_, mocked_delete_user_booking, app, client):
     mocked_delete_user_booking.return_value = True
     res = client.delete('/booking', json={'booking_id': 1})
 
-    mocked_delete_user_booking.assert_called_with(1)
+    mocked_delete_user_booking.assert_called_with('1')
     assert res.status_code == 200
     assert json.loads(res.get_data(as_text=True)) is True
 
