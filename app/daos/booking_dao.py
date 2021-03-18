@@ -5,7 +5,7 @@ from app.daos import facility_dao
 
 TABLE_NAME = 'booking'
 
-FIELD_NAME = 'name'
+FIELD_NAME = 'booking_name'
 FIELD_BOOKING_ID = 'booking_id'
 FIELD_START_TIME = 'start_time'
 FIELD_END_TIME = 'end_time'

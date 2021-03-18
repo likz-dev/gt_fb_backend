@@ -1,7 +1,6 @@
 import unittest
 from datetime import date
 
-import pytest
 from freezegun import freeze_time
 from mock import MagicMock
 from app.entities.booking import Booking
@@ -15,7 +14,7 @@ def do_insert_booking(db_helper):
     response = dao.insert_booking(booking)
 
     query = f'''
-INSERT INTO gt.booking (start_time, end_time, booked_by, facility_id, name)
+INSERT INTO gt.booking (start_time, end_time, booked_by, facility_id, booking_name)
 VALUES (%s, %s, %s, %s, %s)
 RETURNING booking_id
 '''
@@ -109,11 +108,11 @@ class TestBookingDAO(unittest.TestCase):
         db_helper.execute = MagicMock(return_value=[{
             'booking_id': 1,
             'facility_id': '1',
-            'name': 'booking_2',
+            'booking_name': 'booking_2',
             'start_time': date(2021, 3, 12),
             'end_time': date(2021, 4, 12),
             'booked_by': 'test_user',
-            'name': 1,
+            'name': 'facility_1',
             'level': 1,
             'pax': 12
         }])
@@ -121,8 +120,8 @@ class TestBookingDAO(unittest.TestCase):
         response = do_get_all_valid_bookings(db_helper)
         print(response)
         assert response == [
-            {'bookingId': 1, 'facilityId': '1', 'text': 1, 'start': '2021/03/12 00:00', 'end': '2021/04/12 00:00',
-             'bookedBy': 'test_user', 'facilityName': 1, 'facilityPax': 12, 'facilityLevel': 1, 'isMe': False}]
+            {'bookingId': 1, 'facilityId': '1', 'text': 'booking_2', 'start': '2021/03/12 00:00', 'end': '2021/04/12 00:00',
+             'bookedBy': 'test_user', 'facilityName': 'facility_1', 'facilityPax': 12, 'facilityLevel': 1, 'isMe': False}]
 
     @freeze_time('2021-03-10 00:00:00')
     def test_get_all_valid_bookings_invalid(self):
@@ -141,7 +140,7 @@ class TestBookingDAO(unittest.TestCase):
         db_helper.execute = MagicMock(return_value=[{
             'booking_id': 1,
             'facility_id': '1',
-            'name': 'booking_2',
+            'booking_name': 'booking_2',
             'start_time': date(2021, 3, 12),
             'end_time': date(2021, 4, 12),
             'booked_by': 'test_user',
@@ -150,7 +149,7 @@ class TestBookingDAO(unittest.TestCase):
         response = do_get_all_user_valid_bookings(db_helper)
         print(response)
         assert response == [{'bookingId': 1, 'facilityId': '1', 'text': 'booking_2', 'start': '2021/03/12 00:00',
-                             'end': '2021/04/12 00:00', 'bookedBy': 'test_user', 'facilityName': 'booking_2',
+                             'end': '2021/04/12 00:00', 'bookedBy': 'test_user', 'facilityName': None,
                              'facilityPax': None, 'facilityLevel': None, 'isMe': False}]
 
     @freeze_time('2021-03-10 00:00:00')

@@ -7,7 +7,7 @@ import mock
 @mock.patch('app.views.helpers.authentication.authenticate', return_value=True)
 def test_post(_, mocked_create_booking, app, client):
     mocked_create_booking.return_value = 1
-    res = client.post('/book', json={
+    res = client.post('/booking', json={
         'booking_name': 'booking1',
         'start_time': '2021/03/12 10:00',
         'end_time': '2021/03/12 12:00',
@@ -24,7 +24,7 @@ def test_post(_, mocked_create_booking, app, client):
 @mock.patch('app.views.helpers.booking_helper.BookingHelper.create_booking')
 def test_post_unauthenticated(mocked_create_booking, app, client):
     mocked_create_booking.return_value = False
-    res = client.post('/book', json={
+    res = client.post('/booking', json={
         'booking_name': 'booking1',
         'start_time': '2021/03/12 10:00',
         'end_time': '2021/03/12 12:00',
@@ -40,7 +40,7 @@ def test_post_unauthenticated(mocked_create_booking, app, client):
 def test_get(_, mocked_get_all_user_booking, app, client):
     mocked_get_all_user_booking.return_value = [{'booking_id': 1, 'booked_by': 'test_user'},
                                                 {'booking_id': 2, 'booked_by': 'test_user'}]
-    res = client.get('/book', query_string={'booked_by': 'test_user'})
+    res = client.get('/booking', query_string={'booked_by': 'test_user'})
 
     mocked_get_all_user_booking.assert_called_with('test_user')
     assert res.status_code == 200
@@ -52,7 +52,7 @@ def test_get(_, mocked_get_all_user_booking, app, client):
 def test_get_unauthenticated(mocked_get_all_user_booking, app, client):
     mocked_get_all_user_booking.return_value = [{'booking_id': 1, 'booked_by': 'test_user'},
                                                 {'booking_id': 2, 'booked_by': 'test_user'}]
-    res = client.delete('/book', query_string={'booked_by': 'test_user'})
+    res = client.delete('/booking', query_string={'booked_by': 'test_user'})
 
     assert res.status_code == 500
 
@@ -61,7 +61,7 @@ def test_get_unauthenticated(mocked_get_all_user_booking, app, client):
 @mock.patch('app.views.helpers.authentication.authenticate', return_value=True)
 def test_delete(_, mocked_delete_user_booking, app, client):
     mocked_delete_user_booking.return_value = True
-    res = client.delete('/book', json={'booking_id': 1})
+    res = client.delete('/booking', json={'booking_id': 1})
 
     mocked_delete_user_booking.assert_called_with(1)
     assert res.status_code == 200
@@ -71,6 +71,6 @@ def test_delete(_, mocked_delete_user_booking, app, client):
 @mock.patch('app.views.helpers.booking_helper.BookingHelper.delete_user_booking')
 def test_delete_unauthenticated(mocked_delete_user_booking, app, client):
     mocked_delete_user_booking.return_value = 1
-    res = client.delete('/book', json={'booking_id': 1})
+    res = client.delete('/booking', json={'booking_id': 1})
 
     assert res.status_code == 500

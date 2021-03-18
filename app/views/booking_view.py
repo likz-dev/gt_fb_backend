@@ -6,7 +6,7 @@ from app.views.helpers.booking_helper import BookingHelper
 from app.views.helpers.authentication import requires_auth
 
 parser = reqparse.RequestParser()
-parser.add_argument('booking_id', type=int)
+parser.add_argument('booking_id', type=str)
 parser.add_argument('booking_name', type=str)
 parser.add_argument('start_time', type=str)
 parser.add_argument('end_time', type=str)

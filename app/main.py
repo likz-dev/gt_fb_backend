@@ -71,7 +71,9 @@ def home():
 # [GET] Get all facilities and bookings
 api.add_resource(FacilityView, '/facility/all')
 # [POST] Create booking
-api.add_resource(BookingView, '/book')
+# [GET] Get all user bookings
+# [DELETE] Delete booking
+api.add_resource(BookingView, '/booking')
 
 if __name__ == '__main__':
     app.run(debug=True)
