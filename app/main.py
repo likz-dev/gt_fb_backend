@@ -60,7 +60,7 @@ def callback_handling():
 @app.route('/login')
 def login():
     print('/login')
-    return auth0.authorize_redirect(redirect_uri='http://gt-fb-loadb-u0izqrvy105b-1396436520.us-east-1.elb.amazonaws.com/callback')
+    return auth0.authorize_redirect(redirect_uri='http://gt-pi-loadb-uvdhlamggmba-1268143812.us-east-1.elb.amazonaws.com/callback')
 
 
 @app.route('/')

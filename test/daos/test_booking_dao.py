@@ -51,15 +51,18 @@ def do_get_all_user_valid_bookings(db_helper):
 
     query = f'''
 SELECT * FROM gt.booking
+JOIN gt.facility
+ON gt.booking.facility_id = gt.facility.id
 WHERE start_time > '2021-03-10'
 AND booked_by = %s
 '''
-    params = ('likz', )
+    params = ('likz',)
 
     db_helper.connect.assert_called_once()
     db_helper.execute.assert_called_with(query, params)
 
     return response
+
 
 def do_delete_booking(db_helper):
     dao = BookingDAO(db_helper)
@@ -110,17 +113,16 @@ class TestBookingDAO(unittest.TestCase):
             'start_time': date(2021, 3, 12),
             'end_time': date(2021, 4, 12),
             'booked_by': 'test_user',
+            'name': 1,
+            'level': 1,
+            'pax': 12
         }])
 
         response = do_get_all_valid_bookings(db_helper)
-
-        assert response == [{'bookingId': 1,
-                             'bookedBy': 'test_user',
-                             'end': '2021/04/12 00:00',
-                             'facilityId': '1',
-                             'isMe': False,
-                             'start': '2021/03/12 00:00',
-                             'text': 'booking_2'}]
+        print(response)
+        assert response == [
+            {'bookingId': 1, 'facilityId': '1', 'text': 1, 'start': '2021/03/12 00:00', 'end': '2021/04/12 00:00',
+             'bookedBy': 'test_user', 'facilityName': 1, 'facilityPax': 12, 'facilityLevel': 1, 'isMe': False}]
 
     @freeze_time('2021-03-10 00:00:00')
     def test_get_all_valid_bookings_invalid(self):
@@ -146,14 +148,10 @@ class TestBookingDAO(unittest.TestCase):
         }])
 
         response = do_get_all_user_valid_bookings(db_helper)
-
-        assert response == [{'bookingId': 1,
-                             'bookedBy': 'test_user',
-                             'end': '2021/04/12 00:00',
-                             'facilityId': '1',
-                             'isMe': False,
-                             'start': '2021/03/12 00:00',
-                             'text': 'booking_2'}]
+        print(response)
+        assert response == [{'bookingId': 1, 'facilityId': '1', 'text': 'booking_2', 'start': '2021/03/12 00:00',
+                             'end': '2021/04/12 00:00', 'bookedBy': 'test_user', 'facilityName': 'booking_2',
+                             'facilityPax': None, 'facilityLevel': None, 'isMe': False}]
 
     @freeze_time('2021-03-10 00:00:00')
     def test_get_all_user_valid_bookings_invalid(self):

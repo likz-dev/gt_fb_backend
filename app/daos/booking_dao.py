@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from app.daos.base_dao import BaseDAO, SCHEMA_NAME
+from app.daos import facility_dao
 
 TABLE_NAME = 'booking'
 
@@ -22,6 +23,9 @@ def format_response(response):
             'start': r.get(FIELD_START_TIME).strftime("%Y/%m/%d %H:%M"),
             'end': r.get(FIELD_END_TIME).strftime("%Y/%m/%d %H:%M"),
             'bookedBy': r.get(FIELD_BOOKED_BY),
+            'facilityName': r.get(facility_dao.FIELD_NAME),
+            'facilityPax': r.get(facility_dao.FIELD_PAX),
+            'facilityLevel': r.get(facility_dao.FIELD_LEVEL),
             'isMe': False
         })
     return f_response
@@ -62,10 +66,12 @@ WHERE {FIELD_START_TIME} > '{date_today}'
         date_today = datetime.date(datetime.now())
         query = f'''
 SELECT * FROM {SCHEMA_NAME}.{TABLE_NAME}
+JOIN {SCHEMA_NAME}.{facility_dao.TABLE_NAME}
+ON {SCHEMA_NAME}.{TABLE_NAME}.{FIELD_FACILITY_ID} = {SCHEMA_NAME}.{facility_dao.TABLE_NAME}.{facility_dao.FIELD_ID}
 WHERE {FIELD_START_TIME} > '{date_today}'
 AND {FIELD_BOOKED_BY} = %s
 '''
-        params = (booked_by, )
+        params = (booked_by,)
 
         try:
             response = self.db_helper.execute(query, params)
@@ -90,29 +96,3 @@ RETURNING *
             print(error)
             print(f'Error while executing query: {query}')
             return False
-
-    # def get_all_user_valid_booking(self):
-# [
-#         {
-#           text: 'Mr.A reserved',
-#           start: '2021/03/09 18:00',
-#           end: '2021/03/09 20:00',
-#           isMe: false
-#         },
-#     ]
-# print(datetime.date(datetime.now()))
-# helper = DBHelper()
-# dao = BookingDAO(helper)
-# print(dao.insert_booking(Booking(None, 'booking', '2021/03/11 20:00', '2021/03/11 23:00', 'test', 1)))
-# print(dao.insert_booking(Booking(None, 'booking', '2021/03/11 20:00', '2021/03/11 23:00', 'test', 1)))
-# print(dao.insert_booking(Booking(None, 'booking', '2021/03/11 20:00', '2021/03/11 23:00', 'test', 1)))
-# print(dao.insert_booking(Booking(None, 'booking', '2021/03/11 20:00', '2021/03/11 23:00', 'test', 1)))
-# print(dao.insert_booking(Booking(None, 'booking', '2021/03/11 20:00', '2021/03/11 23:00', 'test', 1)))
-# print(dao.insert_booking(Booking(None, 'booking', '2021/03/11 20:00', '2021/03/11 23:00', 'test', 1)))
-# print(dao.insert_booking(Booking(None, 'booking', '2021/03/11 20:00', '2021/03/11 23:00', 'test', 1)))
-# print(dao.insert_booking(Booking(None, 'booking', '2021/03/11 20:00', '2021/03/11 23:00', 'test', 1)))
-# bookings = dao.delete_user_booking(38)
-# print(bookings)
-# bookings = list(filter(lambda b: b.facility_id == 1, bookings))
-# for booking in bookings:
-#     print(f'{booking.booking_id} {booking.start_time.strftime("%Y/%m/%d %H:%M")} {booking.facility_id}')
