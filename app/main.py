@@ -55,11 +55,13 @@ def callback_handling():
     email = userinfo['email']
 
     return redirect(f'http://gt-fb-frontend.s3-website-us-east-1.amazonaws.com/booking/?email={email}&token={id_token}')
+    # return redirect(f'http://localhost:3000/booking/?email={email}&token={id_token}')
 
 
 @app.route('/login')
 def login():
     print('/login')
+    # return auth0.authorize_redirect(redirect_uri='https://753cb70fcd44.ngrok.io/callback')
     return auth0.authorize_redirect(redirect_uri='http://gt-pi-loadb-uvdhlamggmba-1268143812.us-east-1.elb.amazonaws.com/callback')
 
 

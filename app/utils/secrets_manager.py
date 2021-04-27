@@ -21,7 +21,7 @@ class SecretsManager:
     """Encapsulates Secrets Manager functions."""
 
     def __init__(self):
-        self.secretsmanager_client = boto3.client('secretsmanager')
+        self.secretsmanager_client = boto3.client('secretsmanager', region='us-east-2')
 
     def get_value(self, name):
         """
